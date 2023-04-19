@@ -25,8 +25,6 @@
 # prefixed with the name of the rule file and suffixed with the name of the rule
 # hook that will call the custome rule.
 
-@include 'bisque'
-
 # EXCLUSIVE RULES
 #
 # For events occur that should belong to one and only one project,
@@ -50,9 +48,6 @@ exclusive_acCreateCollByAdmin(*ParColl, *ChildColl) {
 #
 exclusive_acPostProcForCollCreate {
   *err = errormsg(ipc_archive_acPostProcForCollCreate, *msg);
-  if (*err < 0) { writeLine('serverLog', *msg); }
-
-  *err = errormsg(bisque_acPostProcForCollCreate, *msg);
   if (*err < 0) { writeLine('serverLog', *msg); }
 }
 
@@ -85,7 +80,6 @@ acCreateCollByAdmin(*ParColl, *ChildColl) {
 acCreateUser {
   ON ($otherUserType == 'rodsuser') {
     ipc_acCreateUser;
-    bisque_acCreateUser;
   }
 }
 
@@ -259,9 +253,6 @@ _ipc_mkDataObjSessVar(*Path) = 'ipc-data-obj-' ++ str(*Path)
 #   } else {
 #     *err = errormsg(ipc_dataObjCreated_default(*User, *Zone, *DATA_OBJ_INFO), *msg);
 #     if (*err < 0) { writeLine('serverLog', *msg); }
-#
-#     *err = errormsg(bisque_dataObjCreated(*User, *Zone, *DATA_OBJ_INFO), *msg);
-#     if (*err < 0) { writeLine('serverLog', *msg); }
 #   }
 # }
 _ipc_dataObjCreated(*User, *Zone, *DATA_OBJ_INFO, *Step) {
@@ -269,11 +260,6 @@ _ipc_dataObjCreated(*User, *Zone, *DATA_OBJ_INFO, *Step) {
 
   *err = errormsg(ipc_dataObjCreated_default(*User, *Zone, *DATA_OBJ_INFO, *Step), *msg);
   if (*err < 0) { writeLine('serverLog', *msg); }
-
-  if (*Step != 'FINISH') {
-      *err = errormsg(bisque_dataObjCreated(*User, *Zone, *DATA_OBJ_INFO), *msg);
-      if (*err < 0) { writeLine('serverLog', *msg); }
-  }
 }
 # XXX - ^^^
 

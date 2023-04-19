@@ -41,12 +41,6 @@ ARG IRODS_ADMIN_USER=rods
 ARG IRODS_MAX_NUM_RE_PROCS=4
 ARG RABBITMQ_URL=
 ARG RABBITMQ_IRODS_EXCHANGE=irods
-ARG IRODS_BISQUE_ADMIN_USER=bisque_admin
-ARG BISQUE_URL=
-ARG BISQUE_ADMIN_USER=bisque_admin
-ARG BISQUE_ADMIN_PASSWORD=
-ARG BISQUE_IRODS_BASE_URL=
-ARG BISQUE_IRODS_ROOT_PATH=/
 
 ### Configure iRODS
 COPY irods-resource/scripts/config-irods.sh /tmp/config-irods
@@ -64,8 +58,6 @@ COPY irods-resource/rules/ipc-logic.re /etc/irods/
 COPY irods-resource/rules/ipc-uuid.re /etc/irods/
 COPY irods-resource/rules/ipc-json.re /etc/irods/
 COPY irods-resource/rules/ipc-env.re.template /tmp/
-COPY irods-resource/rules/bisque.re /etc/irods/
-COPY irods-resource/rules/bisque-env.re.template /tmp/
 COPY irods-resource/scripts/prep-re-script.sh /tmp/prep-re-script
 RUN /tmp/prep-re-script
 

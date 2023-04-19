@@ -30,8 +30,6 @@ export IRODS_MAX_NUM_RE_PROCS=4
 
 export IRODS_ADMIN_USER=rods
 export IRODS_ADMIN_PASSWORD=test_rods_password
-export IRODS_BISQUE_ADMIN_USER=bisque_admin
-export IRODS_BISQUE_ADMIN_PASSWORD=test_bisque_admin_password
 
 export DBMS_CONF_HOST="$ENV_NAME"_dbms_1."$DOMAIN"
 export IRODS_CONF_HOST="$ENV_NAME"_irods_1."$DOMAIN"
@@ -61,13 +59,6 @@ export IRODS_PROXY_PASSWORD="$IRODS_ADMIN_PASSWORD"
 export IRODS_PORT="$IRODS_ZONE_PORT"
 export IRODS_ZONE="$IRODS_ZONE_NAME"
 export IRODS_SHARED=/"$IRODS_ZONE_NAME"/home/public
-
-# leave BISQUE_URL empty to disable bisque integration
-export BISQUE_URL=
-export BISQUE_IRODS_BASE_URL=file:///irods_mount
-export BISQUE_IRODS_ROOT_PATH=/"$IRODS_ZONE_NAME"/home
-export BISQUE_ADMIN_USER=bisque_admin
-export BISQUE_ADMIN_PASSWORD=test_bisque_admin_password
 
 export DOCKER_IRODS_VOLUME=irods_volume
 export DOCKER_DB_VOLUME=db_volume
