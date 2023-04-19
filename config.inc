@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export ENV_NAME=ucsb_irods
+export ENV_NAME=ornl_irods
 export DOMAIN="$ENV_NAME"_default
 
 export DBMS_HOST="$ENV_NAME"_dbms_1."$DOMAIN"
@@ -16,11 +16,11 @@ export IRODS_LAST_EPHEMERAL_PORT=20199
 export IRODS_RES_CONF_NAME=localResc
 export IRODS_SCHEMA_VALIDATION=off
 export IRODS_VAULT=/var/lib/irods/Vault
-export IRODS_ZONE_NAME=ucsb
+export IRODS_ZONE_NAME=ornl
 export IRODS_ZONE_KEY=TEMPORARY_zone_key
 export IRODS_CONTROL_PLANE_KEY=TEMPORARY__32byte_ctrl_plane_key
 export IRODS_CONTROL_PLANE_PORT=1248
-export IRODS_HOST=brain.ece.ucsb.edu
+export IRODS_HOST=localhost
 export IRODS_NEGOTIATION_KEY=TEMPORARY_32byte_negotiation_key
 export IRODS_SYSTEM_GROUP=irods
 export IRODS_SYSTEM_USER=irods
