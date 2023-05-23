@@ -1,4 +1,23 @@
-FROM irods-docker-deploy-centos7
+FROM centos:7
+
+RUN rpm --import file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7 \
+    && yum --assumeyes install epel-release \
+    && rpm --import file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7 \
+    && yum --assumeyes install \
+            ca-certificates \
+            iproute \
+            iptables-services \
+            libselinux-python \
+            openssh-server \
+            sudo
+
+RUN ssh-keygen -q -f /etc/ssh/ssh_host_dsa_key -N '' -t dsa \
+    && ssh-keygen -q -f /etc/ssh/ssh_host_rsa_key -N '' -t rsa \
+    && ssh-keygen -q -f /etc/ssh/ssh_host_ecdsa_key -N '' -t ecdsa \
+    && ssh-keygen -q -f /etc/ssh/ssh_host_ed25519_key -N '' -t ed25519 \
+    && mkdir --parents /var/run/sshd \
+    && mkdir --mode 0700 /root/.ssh
+
 
 ### Install ansible support
 RUN yum --assumeyes install \
@@ -49,18 +68,12 @@ ARG IRODS_SYSTEM_GROUP=irods
 ARG IRODS_SYSTEM_USER=irods
 ARG IRODS_ZONE_KEY=TEMPORARY_zone_key
 ARG IRODS_ZONE_NAME=tempZone
-ARG IRODS_ADMIN_PASSWORD=rods
+ARG IRODS_ADMIN_PASSWORD=irods
 ARG IRODS_ZONE_PORT=1247
-ARG IRODS_ADMIN_USER=rods
+ARG IRODS_ADMIN_USER=irods
 ARG IRODS_MAX_NUM_RE_PROCS=4
 ARG RABBITMQ_URL=
 ARG RABBITMQ_IRODS_EXCHANGE=irods
-ARG IRODS_BISQUE_ADMIN_USER=bisque_admin
-ARG BISQUE_URL=
-ARG BISQUE_ADMIN_USER=bisque_admin
-ARG BISQUE_ADMIN_PASSWORD=
-ARG BISQUE_IRODS_BASE_URL=
-ARG BISQUE_IRODS_ROOT_PATH=/
 
 ### Configure ODBC and iRODS
 COPY irods/scripts/config-irods.sh /tmp/config-irods
@@ -78,8 +91,6 @@ COPY irods/rules/ipc-logic.re /etc/irods/
 COPY irods/rules/ipc-uuid.re /etc/irods/
 COPY irods/rules/ipc-json.re /etc/irods/
 COPY irods/rules/ipc-env.re.template /tmp/
-COPY irods/rules/bisque.re /etc/irods/
-COPY irods/rules/bisque-env.re.template /tmp/
 COPY irods/scripts/prep-re-script.sh /tmp/prep-re-script
 RUN /tmp/prep-re-script
 
@@ -92,5 +103,8 @@ RUN cp /usr/local/bin/irods-rule-async-exec-cmd /var/lib/irods/msiExecCmd_bin/
 COPY irods/rule_async_exec_cmd/config.yml.template /tmp/rule_async_exec_cmd_config.yml.template
 COPY irods/scripts/prep-rule-async-exec-cmd-config.sh /tmp/prep-rule-async-exec-cmd-config
 RUN /tmp/prep-rule-async-exec-cmd-config
+
+COPY base/entrypoint.sh /entrypoint
+ENTRYPOINT [ "/entrypoint" ]
 
 CMD [ "/service.sh" ]

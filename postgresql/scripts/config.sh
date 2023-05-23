@@ -43,7 +43,7 @@ main()
 
   printf 'Preparing %s\n' "$sqlData"
   mk_cfg_sql \
-      "$baseDir" "$IRODS_ZONE_NAME" "$IRODS_ADMIN_USER" "$IRODS_ADMIN_PASSWORD" "$IRODS_BISQUE_ADMIN_USER" "$IRODS_BISQUE_ADMIN_PASSWORD" "$IRODS_RESOURCES" \
+      "$baseDir" "$IRODS_ZONE_NAME" "$IRODS_ADMIN_USER" "$IRODS_ADMIN_PASSWORD" "$IRODS_RESOURCES" \
     > "$sqlData"
 
   printf 'Starting PostgreSQL server\n'
@@ -74,14 +74,10 @@ expand_template()
   local zoneName="$1"
   local zoneUser="$2"
   local zonePasswd="$3"
-  local zoneBqUser="$4"
-  local zoneBqPasswd="$5"
-  local template="$6"
+  local template="$4"
 
   cat <<EOF | sed --file - "$template"
 s/ZONE_NAME_TEMPLATE/$(escape_for_sed "$zoneName")/g
-s/BISQUE_ADMIN_NAME_TEMPLATE/$(escape_for_sed "$zoneBqUser")/g
-s/BISQUE_ADMIN_PASSWORD_TEMPLATE/$(escape_for_sed "$zoneBqPasswd")/g
 s/ADMIN_NAME_TEMPLATE/$(escape_for_sed "$zoneUser")/g
 s/ADMIN_PASSWORD_TEMPLATE/$(escape_for_sed "$zonePasswd")/g
 EOF
@@ -130,14 +126,12 @@ mk_cfg_sql()
   local zone="$2"
   local admName="$3"
   local admPasswd="$4"
-  local bqAdmName="$5"
-  local bqAdmPasswd="$6"
-  local rescs="$7"
+  local rescs="$5"
 
   local nowTs=$(date '+%s');
 
   cat "$sqlDir"/sys-values.sql
-  expand_template "$zone" "$admName" "$admPasswd" "$bqAdmName" "$bqAdmPasswd" "$sqlDir"/config-values.sql.template
+  expand_template "$zone" "$admName" "$admPasswd" "$sqlDir"/config-values.sql.template
 
   local id=9101
 

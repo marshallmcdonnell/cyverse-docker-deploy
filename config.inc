@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export ENV_NAME=ucsb_irods
+export ENV_NAME=ornl_irods
 export DOMAIN="$ENV_NAME"_default
 
 export DBMS_HOST="$ENV_NAME"_dbms_1."$DOMAIN"
@@ -16,11 +16,11 @@ export IRODS_LAST_EPHEMERAL_PORT=20199
 export IRODS_RES_CONF_NAME=localResc
 export IRODS_SCHEMA_VALIDATION=off
 export IRODS_VAULT=/var/lib/irods/Vault
-export IRODS_ZONE_NAME=ucsb
+export IRODS_ZONE_NAME=ornl
 export IRODS_ZONE_KEY=TEMPORARY_zone_key
 export IRODS_CONTROL_PLANE_KEY=TEMPORARY__32byte_ctrl_plane_key
 export IRODS_CONTROL_PLANE_PORT=1248
-export IRODS_HOST=brain.ece.ucsb.edu
+export IRODS_HOST=localhost
 export IRODS_NEGOTIATION_KEY=TEMPORARY_32byte_negotiation_key
 export IRODS_SYSTEM_GROUP=irods
 export IRODS_SYSTEM_USER=irods
@@ -28,10 +28,8 @@ export IRODS_ZONE_PORT=1247
 export IRODS_DEFAULT_RESOURCE="$IRODS_RES_CONF_NAME"
 export IRODS_MAX_NUM_RE_PROCS=4
 
-export IRODS_ADMIN_USER=rods
+export IRODS_ADMIN_USER=irods
 export IRODS_ADMIN_PASSWORD=test_rods_password
-export IRODS_BISQUE_ADMIN_USER=bisque_admin
-export IRODS_BISQUE_ADMIN_PASSWORD=test_bisque_admin_password
 
 export DBMS_CONF_HOST="$ENV_NAME"_dbms_1."$DOMAIN"
 export IRODS_CONF_HOST="$ENV_NAME"_irods_1."$DOMAIN"
@@ -61,13 +59,6 @@ export IRODS_PROXY_PASSWORD="$IRODS_ADMIN_PASSWORD"
 export IRODS_PORT="$IRODS_ZONE_PORT"
 export IRODS_ZONE="$IRODS_ZONE_NAME"
 export IRODS_SHARED=/"$IRODS_ZONE_NAME"/home/public
-
-# leave BISQUE_URL empty to disable bisque integration
-export BISQUE_URL=
-export BISQUE_IRODS_BASE_URL=file:///irods_mount
-export BISQUE_IRODS_ROOT_PATH=/"$IRODS_ZONE_NAME"/home
-export BISQUE_ADMIN_USER=bisque_admin
-export BISQUE_ADMIN_PASSWORD=test_bisque_admin_password
 
 export DOCKER_IRODS_VOLUME=irods_volume
 export DOCKER_DB_VOLUME=db_volume
